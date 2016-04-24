@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Remove input value</title>
+    <style>
+        body {
+            padding: 20px;
+        }
+        
+        div.removeinputvalue {
+            display: inline-block;
+            position: relative;
+        }
+        
+        div.removeinputvalue input {
+            padding-right: 15px;
+        }
+        
+        a.removeinputvalue {
+            position: absolute;
+            right: 5px;
+            cursor: pointer;
+        }
+        
+        div.removeinputvalue.empty a.removeinputvalue {
+            display: none !important;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script>
+        /* global jQuery */
+        
+        // remove input value
+        (function($) {
+            $(document).ready(function() {
+                $('.js-removeinputvalue').each(function() {
+                    $(this).wrap('<div class="removeinputvalue"></div>');
+                    $(this).parent().append('<a class="removeinputvalue" tabindex="-1" aria-hidden="true">x</a>');
+                    if ($(this).val() == ''){
+                        $(this).parent().addClass('empty');
+                    }
+                    $(this).parent().find('a.removeinputvalue').on('click', function() {
+                        $(this).parent().find('input').val('');
+                        $(this).parent().addClass('empty');
+                    });
+                    $(this).on('keyup', function() {
+                        if ($(this).val() == '') {
+                            $(this).parent().addClass('empty');
+                        }
+                        else {
+                            $(this).parent().removeClass('empty');
+                        }
+                    });
+                });
+            });
+        })(jQuery);
+    </script>
+</head>
+
+<body>
+    <form>
+        <label for="username">Name</label>
+        <input class="js-removeinputvalue" type="text" name="username" id="username" />
+        <input type="submit" value="Submit" />
+    </form>
+</body>
+
+</html>
